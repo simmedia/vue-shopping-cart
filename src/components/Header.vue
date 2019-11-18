@@ -24,12 +24,14 @@
 
     <v-app-bar app color="red lighten-1" dark>
       <v-app-bar-nav-icon class="d-flex d-xs-flex d-sm-none" @click.stop="drawer = !drawer" />
-      <v-toolbar-title>Application</v-toolbar-title>
+      <v-toolbar-title><span class="">Vue</span>Shopping</v-toolbar-title>
       <v-spacer></v-spacer>
-      <v-btn class="red darken-1 d-none d-sm-flex" to="/register">SIGN UP</v-btn>
+      <v-btn class="mr-5 d-none d-sm-flex" to="/register" outlined>SIGN UP</v-btn>
       <v-btn class="d-none d-sm-flex" to="/login" text>LOG IN</v-btn>
     </v-app-bar>
     </div>
+
+
 </template>
 
 <script>
