@@ -6,7 +6,7 @@
       <router-view></router-view>
     </transition>
 
-    <v-footer color="indigo" app>
+    <v-footer color="red lighten-1" app>
       <span class="white--text">&copy; 2019</span>
     </v-footer>
   </v-app>

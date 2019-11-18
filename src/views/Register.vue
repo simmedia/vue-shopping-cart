@@ -40,4 +40,9 @@ export default {
 </script>
 
 <style>
+
+.col {
+  padding: 30px;
+}
+
 </style>
