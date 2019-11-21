@@ -25,6 +25,8 @@
 </template>
 
 <script>
+  import db from './firebaseInit'
+
   export default {
     data () {
       return {
@@ -37,5 +39,15 @@
         ],
       }
     },
+    created() {
+      db.collection('employees').get().then(
+        querySnapshot => {
+          querySnapshot.forEach(doc => {
+            console.log(doc.data());
+            
+          })
+        }
+      )
+    }
   }
 </script>
