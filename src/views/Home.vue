@@ -1,5 +1,9 @@
 <template>
+
   <v-container>
+    <div style="margin-top: 200px">
+     {{currentUser}}
+    </div>
     <v-carousel style="margin-top: 20%">
     <v-carousel-item
       v-for="(color, i) in colors"
@@ -39,15 +43,20 @@
         ],
       }
     },
+    computed: {
+      currentUser() {
+        return this.$store.getters.user
+      }
+    },
     created() {
-      db.collection('employees').get().then(
-        querySnapshot => {
-          querySnapshot.forEach(doc => {
-            console.log(doc.data());
+      // db.collection('employees').get().then(
+      //   querySnapshot => {
+      //     querySnapshot.forEach(doc => {
+      //       console.log(doc.data());
             
-          })
-        }
-      )
+      //     })
+      //   }
+      // )
     }
   }
 </script>

@@ -30,21 +30,23 @@ export default {
   }),
   computed: {
     user() {
-      return this.$store.getters.user()
+      return this.$store.getters.user
+    }
+  },
+  watch: {
+    user(value) {
+      if (value !== null && value !== undefined) {
+        this.$router.push("/");
+      }
     }
   },
 
   methods: {
-
     onSignin() {
       this.$store.dispatch("signUserIn", {
         email: this.email,
         password: this.password
-      });
-      if(this.user) {
-        console.log(this.user);
-        
-      }
+      })
     }
   }
 };

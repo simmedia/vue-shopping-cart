@@ -3,6 +3,7 @@ import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
 import Register from '../views/Register.vue'
 import Login from '../views/Login.vue'
+import AuthGuard from './auth-guard'
 
 Vue.use(VueRouter)
 
@@ -10,22 +11,24 @@ const routes = [
   {
     path: '/',
     name: 'home',
-    component: Home
+    component: Home,
+    beforeEnter: AuthGuard
   },
   {
-    path: '/register',
+    path: '/signup',
     name: 'register',
     component: Register
   },
   {
-    path: '/login',
+    path: '/signin',
     name: 'login',
     component: Login
   },
   {
-    path: '/about',
-    name: 'about',
-    component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
+    path: '/profile',
+    name: 'profile',
+    component: () => import(/* webpackChunkName: "about" */ '../views/Profile.vue'),
+    beforeEnter: AuthGuard
   }
 ]
 

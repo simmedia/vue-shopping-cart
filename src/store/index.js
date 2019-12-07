@@ -1,8 +1,8 @@
-import Vue from 'vue'
-import Vuex from 'vuex'
-import firebase from 'firebase'
+import Vue from "vue";
+import Vuex from "vuex";
+import * as firebase from "firebase";
 
-Vue.use(Vuex)
+Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
@@ -10,58 +10,60 @@ export default new Vuex.Store({
   },
   mutations: {
     setUser(state, payload) {
-      state.user = payload
+      state.user = payload;
     }
   },
   actions: {
-    loginUser({
-      commit
-    }, payload) {
-      firebase.auth().createUserWithEmailAndPassword(payload.email, payload.password)
-        .then(
-          user => {
-            const newUser = {
-              id: user.uid,
-              email: user.email
-            }
-            commit('setUser', newUser)
-
+    signUserUp({ commit }, payload) {
+      firebase
+        .auth()
+        .createUserWithEmailAndPassword(payload.email, payload.password)
+        .then(user => {
+          if (user) {
+            console.log('registered');
           }
-        )
+          const newUser = {
+            id: user.uid
+          };
+          commit("setUser", newUser);
+        })
         .catch(error => {
           console.log(error);
-
-        })
+        });
     },
-    signUserIn({
-      commit
-    }, payload) {
-      firebase.auth().signInWithEmailAndPassword(payload.email, payload.password)
-        .then(
-          user => {
-            const newUser = {
-              id: user.uid,
-            }
-            commit('setUser', newUser)
-          }
-        )
+    signUserIn({ commit }, payload) {
+      firebase
+        .auth()
+        .signInWithEmailAndPassword(payload.email, payload.password)
+        .then(user => {
+          console.log('logged in');
+
+          const newUser = {
+            id: user.uid
+          };
+          commit("setUser", newUser);
+        })
         .catch(error => {
           console.log(error);
-
-        })
+        });
     },
-    autoSignIn({
+    autoSignIn({ commit }, payload) {
+      commit("setUser", {
+        id: payload.uid
+      });
+    },
+
+    logout({
       commit
-    }, payload) {
-      commit('setUser', {
-        id: payload.uid,
-      })
-    }
+    }) {
+      firebase.auth().signOut()
+      commit('setUser', null)
+    },
   },
   getters: {
     user(state) {
-      return state.user
-    },
+      return state.user;
+    }
   },
   modules: {}
-})
+});
