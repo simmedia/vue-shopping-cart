@@ -10,7 +10,7 @@
               <v-text-field v-model="email" label="E-mail" required></v-text-field>
               <v-text-field v-model="password" label="Password" type="password"></v-text-field>
 
-              <v-btn color="success" class="mr-4 mt-6" @click="register">Log In</v-btn>
+              <v-btn color="success" class="mr-4 mt-6" @click="onSignin">Log In</v-btn>
             </v-form>
           </v-col>
         </v-row>
@@ -28,8 +28,25 @@ export default {
     select: null,
     lazy: false
   }),
+  computed: {
+    user() {
+      return this.$store.getters.user()
+    }
+  },
 
-  methods: {}
+  methods: {
+
+    onSignin() {
+      this.$store.dispatch("signUserIn", {
+        email: this.email,
+        password: this.password
+      });
+      if(this.user) {
+        console.log(this.user);
+        
+      }
+    }
+  }
 };
 </script>
 

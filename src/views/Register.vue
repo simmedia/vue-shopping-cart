@@ -29,18 +29,22 @@ export default {
     select: null,
     lazy: false
   }),
+  computed: {
+
+    user() {
+      return this.$store.getters.user;
+    }
+  },
 
   methods: {
     register() {
-      firebase.auth().createUserWithEmailAndPassword(this.email, this.password).then(
-        console.log('success'),
-        this.$router.push('/')
-        
-      ).catch(err => {
-        console.log(err);
-        
+      this.$store.dispatch('loginUser', {
+        email: this.email,
+        password: this.password
       })
+      console.log(this.user);
       
+      this.$router.push('/')
     }
   }
 };
