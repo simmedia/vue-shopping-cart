@@ -8,47 +8,39 @@
       {{korisnik.displayName}}
     </div> -->
 
-    <v-container class="mt-10">
-      <h4>Update profile</h4>
-      <v-row justify="start">
-        <v-col xs="12" md="4">
-          <v-form ref="form" v-model="valid" :lazy-validation="lazy">
-            <v-text-field
-              v-model="name"
-              :counter="10"
-              :rules="nameRules"
-              label="Name"
-              required
-            ></v-text-field>
+    <v-container class="mt-12 pt-12">
+      <v-card>
+        <v-card-text>Update Pofile</v-card-text>
+        <v-row justify="start">
+          <v-col xs="12" md="4">
+            <v-form ref="form">
+              <v-text-field
+                v-model="displayName"
+                :counter="10"
+                label="Name"
+                required
+              ></v-text-field>
 
-            <v-text-field
-              v-model="email"
-              :rules="emailRules"
-              label="E-mail"
-              required
-            ></v-text-field>
+              <v-text-field
+                v-model="newEmail"
+                label="E-mail"
+                required
+              ></v-text-field>
 
-
-            <v-btn
-              :disabled="!valid"
-              color="success"
-              class="mr-4"
-              @click="validate"
-            >
-              Validate
-            </v-btn>
-
-            <v-btn color="error" class="mr-4" @click="reset">
-              Reset Form
-            </v-btn>
-
-            <v-btn color="warning" @click="resetValidation">
-              Reset Validation
-            </v-btn>
-          </v-form>
-        </v-col>
-      </v-row>
+              <v-btn
+                :disabled="!displayName && !newEmail"
+                color="indigo"
+                class="white--text mr-4 mt-5"
+                @click="updateProfle"
+              >
+                Update
+              </v-btn>
+            </v-form>
+          </v-col>
+        </v-row>
+      </v-card>
     </v-container>
+    {{ user }}
   </v-container>
 </template>
 
@@ -57,21 +49,33 @@ import firebase from "firebase";
 export default {
   data() {
     return {
-      displayName: null
+      displayName: null,
+      newEmail: null
     };
   },
   methods: {
+    updateProfle() {
+      if(this.displayName)
+      this.updateDisplayName();
+      if(this.newEmail) {
+        this.updateEmail()
+      }
+      location.reload(true)
+    },
     updateDisplayName() {
-      var user = firebase.auth().currentUser;
-      user.updateProfile({
+      // var user = firebase.auth().currentUser;
+      this.user.updateProfile({
         displayName: this.displayName
-      });
+      })
+    },
+    updateEmail() {
+      // var user = firebase.auth().currentUser;
+      this.user.updateEmail(this.newEmail);
     }
   },
   computed: {
-    korisnik() {
-      var currUser = firebase.auth().currentUser;
-      return currUser;
+    user() {
+      return firebase.auth().currentUser;
     }
   }
 };

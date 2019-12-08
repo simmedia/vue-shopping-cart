@@ -56,20 +56,37 @@
           {{ item.title }}
         </v-btn>
 
-        
-          <v-menu v-if="userIsAuth" :open-on-hover="openOnHover">
-            <template v-slot:activator="{ on }">
-              <v-btn text dark v-on="on">
-                {{user.displayName}}
-              </v-btn>
-            </template>
-            <v-list>
-              <v-list-item @click="onLogout">
-                <v-list-item-title>logout</v-list-item-title>
-              </v-list-item>
-            </v-list>
-          </v-menu>
-     
+        <v-menu offset-y v-if="userIsAuth" :open-on-hover="openOnHover">
+          <template v-slot:activator="{ on }">
+            <v-btn class="red lighten-2" text dark v-on="on">
+              {{ user.displayName }}
+              <v-icon right>mdi-arrow-down</v-icon>
+            </v-btn>
+          </template>
+          <v-list>
+            <v-list-item
+              class="pr-5"
+              router
+              to="/profile"
+              style="cursor: pointer"
+            >
+              <v-list-item-action>
+                <v-icon>mdi-account</v-icon>
+              </v-list-item-action>
+              <v-list-item-content>
+                <v-list-item-title>Profile</v-list-item-title>
+              </v-list-item-content>
+            </v-list-item>
+            <v-list-item class="pr-5" @click="onLogout" style="cursor: pointer">
+              <v-list-item-action>
+                <v-icon>mdi-logout</v-icon>
+              </v-list-item-action>
+              <v-list-item-content>
+                <v-list-item-title>Logout</v-list-item-title>
+              </v-list-item-content>
+            </v-list-item>
+          </v-list>
+        </v-menu>
 
         <!-- <v-btn @click="onLogout" v-if="userIsAuth" text>
           <v-icon left>mdi-logout</v-icon>
@@ -81,7 +98,7 @@
 </template>
 
 <script>
-import firebase from 'firebase'
+import firebase from "firebase";
 export default {
   props: {
     source: String
@@ -100,14 +117,14 @@ export default {
       ];
       if (this.userIsAuth) {
         menuItems = [
-          { icon: "mdi-account", title: "Profile", link: "/profile" }
+          // { icon: "mdi-account", title: "Profile", link: "/profile" }
         ];
       }
       return menuItems;
     },
     user() {
       const user = firebase.auth().currentUser;
-      return user
+      return user;
     },
     userIsAuth() {
       return (
