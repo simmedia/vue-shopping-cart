@@ -1,6 +1,16 @@
 <template>
   <div>
     <v-navigation-drawer temporary v-model="drawer" app>
+      <v-list-item v-if="userIsAuth">
+        <v-list-item-avatar>
+          <v-img src="https://randomuser.me/api/portraits/men/78.jpg"></v-img>
+        </v-list-item-avatar>
+
+        <v-list-item-content>
+          <v-list-item-title>{{ user.displayName }}</v-list-item-title>
+        </v-list-item-content>
+      </v-list-item>
+
       <v-list dense>
         <v-list-item
           color="indigo"
@@ -19,10 +29,18 @@
         </v-list-item>
         <v-list-item
           v-if="userIsAuth"
-          @click="onLogout"
+          to="/profile"
           router
           style="cursor: pointer"
         >
+          <v-list-item-action>
+            <v-icon>mdi-account</v-icon>
+          </v-list-item-action>
+          <v-list-item-content>
+            <v-list-item-title>Profile</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+        <v-list-item style="cursor: pointer">
           <v-list-item-action>
             <v-icon>mdi-logout</v-icon>
           </v-list-item-action>
@@ -31,6 +49,11 @@
           </v-list-item-content>
         </v-list-item>
       </v-list>
+      <template v-if="userIsAuth" v-slot:append>
+        <div class="pa-2">
+          <v-btn  @click="onLogout" block>Logout</v-btn>
+        </div>
+      </template>
     </v-navigation-drawer>
 
     <v-app-bar app color="red lighten-1" dark>
@@ -107,8 +130,19 @@ export default {
 
   data: () => ({
     drawer: false,
-    openOnHover: true
+    openOnHover: true,
+    user: null
   }),
+  created() {
+    firebase.auth().onAuthStateChanged((user) => {
+      if(user) {
+        this.user = user
+      }
+      
+    })
+    console.log('created');
+    
+  },
   computed: {
     menuItems() {
       let menuItems = [
@@ -122,10 +156,10 @@ export default {
       }
       return menuItems;
     },
-    user() {
-      const user = firebase.auth().currentUser;
-      return user;
-    },
+    // user() {
+    //   const user = firebase.auth().currentUser;
+    //   return user;
+    // },
     userIsAuth() {
       return (
         this.$store.getters.user !== null &&
@@ -136,6 +170,7 @@ export default {
   methods: {
     onLogout() {
       this.$store.dispatch("logout");
+      // this.$store.commit('setUser', null)
       this.$router.push("/signin");
     }
   }
