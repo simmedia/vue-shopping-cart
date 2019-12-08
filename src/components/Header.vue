@@ -55,23 +55,42 @@
           <v-icon left>{{ item.icon }}</v-icon>
           {{ item.title }}
         </v-btn>
-        <v-btn @click="onLogout" v-if="userIsAuth" text>
+
+        
+          <v-menu v-if="userIsAuth" :open-on-hover="openOnHover">
+            <template v-slot:activator="{ on }">
+              <v-btn text dark v-on="on">
+                {{user.displayName}}
+              </v-btn>
+            </template>
+            <v-list>
+              <v-list-item @click="onLogout">
+                <v-list-item-title>logout</v-list-item-title>
+              </v-list-item>
+            </v-list>
+          </v-menu>
+     
+
+        <!-- <v-btn @click="onLogout" v-if="userIsAuth" text>
           <v-icon left>mdi-logout</v-icon>
           Logout
-        </v-btn>
+        </v-btn> -->
       </v-toolbar-items>
     </v-app-bar>
   </div>
 </template>
 
 <script>
+import firebase from 'firebase'
 export default {
   props: {
     source: String
-  },components: {},
+  },
+  components: {},
 
   data: () => ({
-    drawer: false
+    drawer: false,
+    openOnHover: true
   }),
   computed: {
     menuItems() {
@@ -80,10 +99,15 @@ export default {
         { icon: "mdi-key", title: "Sign In", link: "/signin" }
       ];
       if (this.userIsAuth) {
-        menuItems = [{ icon: "mdi-account", title: "Profile", link: "/profile" }
+        menuItems = [
+          { icon: "mdi-account", title: "Profile", link: "/profile" }
         ];
       }
       return menuItems;
+    },
+    user() {
+      const user = firebase.auth().currentUser;
+      return user
     },
     userIsAuth() {
       return (
@@ -94,8 +118,8 @@ export default {
   },
   methods: {
     onLogout() {
-      this.$store.dispatch('logout')
-      this.$router.push('/signin')
+      this.$store.dispatch("logout");
+      this.$router.push("/signin");
     }
   }
 };
