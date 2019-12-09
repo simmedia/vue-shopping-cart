@@ -5,9 +5,10 @@ import router from './router'
 import store from './store'
 import vuetify from './plugins/vuetify';
 import * as firebase from 'firebase'
+import infoText from '@/components/InfoText.vue'
 
 Vue.config.productionTip = false
-
+Vue.component('app-info-text', infoText)
 
 new Vue({
   router,

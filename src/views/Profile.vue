@@ -40,7 +40,11 @@
         </v-row>
       </v-card>
     </v-container>
-    {{ user }}
+    <v-btn dark color="orange darken-2" @click="setInfoText">
+      Open Snackbar
+    </v-btn>
+    <app-info-text :infoText="text" />
+    <!-- {{ user }} -->
   </v-container>
 </template>
 
@@ -50,26 +54,28 @@ export default {
   data() {
     return {
       displayName: null,
-      newEmail: null
+      newEmail: null,
+      text: null
     };
   },
   methods: {
+    setInfoText() {
+      this.text = 'Successfuly updated!'
+      
+    },
     updateProfle() {
-      if(this.displayName)
-      this.updateDisplayName();
-      if(this.newEmail) {
-        this.updateEmail()
+      if (this.displayName) this.updateDisplayName();
+      if (this.newEmail) {
+        this.updateEmail();
       }
-      location.reload(true)
     },
     updateDisplayName() {
-      // var user = firebase.auth().currentUser;
       this.user.updateProfile({
         displayName: this.displayName
-      })
+      });
+      this.snackbar = true;
     },
     updateEmail() {
-      // var user = firebase.auth().currentUser;
       this.user.updateEmail(this.newEmail);
     }
   },
