@@ -1,10 +1,10 @@
 <template>
 
   <v-container>
-    <div style="margin-top: 200px">
+    <div style="margin-top: 60px">
      {{currentUser}}
     </div>
-    <v-carousel style="margin-top: 20%">
+    <v-carousel style="margin-top: 5%">
     <v-carousel-item
       v-for="(color, i) in colors"
       :key="color"
