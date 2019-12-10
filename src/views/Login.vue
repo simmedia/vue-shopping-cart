@@ -11,6 +11,7 @@
               <v-text-field v-model="password" label="Password" type="password"></v-text-field>
 
               <v-btn color="success" class="mr-4 mt-6" @click="onSignin">Log In</v-btn>
+              <v-btn router to="/signup" class="mr-4 mt-6" text>Sign Up</v-btn>
             </v-form>
           </v-col>
         </v-row>

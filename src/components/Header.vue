@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-navigation-drawer temporary v-model="drawer" app>
+    <v-navigation-drawer v-if="userIsAuth" temporary v-model="drawer" app>
       <v-list-item v-if="userIsAuth">
         <v-list-item-avatar>
           <v-img src="https://randomuser.me/api/portraits/men/78.jpg"></v-img>
@@ -27,12 +27,7 @@
             <v-list-item-title>{{ item.title }}</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
-        <v-list-item
-          v-if="userIsAuth"
-          to="/profile"
-          router
-          style="cursor: pointer"
-        >
+        <v-list-item v-if="userIsAuth" to="/profile" router style="cursor: pointer">
           <v-list-item-action>
             <v-icon>mdi-account</v-icon>
           </v-list-item-action>
@@ -51,30 +46,19 @@
       </v-list>
       <template v-if="userIsAuth" v-slot:append>
         <div class="pa-2">
-          <v-btn  @click="onLogout" block>Logout</v-btn>
+          <v-btn @click="onLogout" block>Logout</v-btn>
         </div>
       </template>
     </v-navigation-drawer>
 
-    <v-app-bar app color="red lighten-1" dark>
-      <v-app-bar-nav-icon
-        class="hidden-sm-and-up"
-        @click.stop="drawer = !drawer"
-      />
+    <v-app-bar v-if="userIsAuth" app color="red lighten-1" dark>
+      <v-app-bar-nav-icon class="hidden-sm-and-up" @click.stop="drawer = !drawer" />
       <v-toolbar-title>
-        <router-link to="/" tag="span" style="cursor: pointer"
-          >My VueShop</router-link
-        >
+        <router-link to="/" tag="span" style="cursor: pointer">My VueShop</router-link>
       </v-toolbar-title>
       <v-spacer></v-spacer>
       <v-toolbar-items class="hidden-xs-only">
-        <v-btn
-          v-for="item in menuItems"
-          :key="item.title"
-          router
-          :to="item.link"
-          text
-        >
+        <v-btn v-for="item in menuItems" :key="item.title" router :to="item.link" text>
           <v-icon left>{{ item.icon }}</v-icon>
           {{ item.title }}
         </v-btn>
@@ -87,12 +71,7 @@
             </v-btn>
           </template>
           <v-list>
-            <v-list-item
-              class="pr-5"
-              router
-              to="/profile"
-              style="cursor: pointer"
-            >
+            <v-list-item class="pr-5" router to="/profile" style="cursor: pointer">
               <v-list-item-action>
                 <v-icon>mdi-account</v-icon>
               </v-list-item-action>
@@ -114,7 +93,7 @@
         <!-- <v-btn @click="onLogout" v-if="userIsAuth" text>
           <v-icon left>mdi-logout</v-icon>
           Logout
-        </v-btn> -->
+        </v-btn>-->
       </v-toolbar-items>
     </v-app-bar>
   </div>
@@ -134,14 +113,11 @@ export default {
     user: null
   }),
   created() {
-    firebase.auth().onAuthStateChanged((user) => {
-      if(user) {
-        this.user = user
+    firebase.auth().onAuthStateChanged(user => {
+      if (user) {
+        this.user = user;
       }
-      
-    })
-    console.log('created');
-    
+    });
   },
   computed: {
     menuItems() {
@@ -156,10 +132,6 @@ export default {
       }
       return menuItems;
     },
-    // user() {
-    //   const user = firebase.auth().currentUser;
-    //   return user;
-    // },
     userIsAuth() {
       return (
         this.$store.getters.user !== null &&

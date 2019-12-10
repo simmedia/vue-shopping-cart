@@ -47,6 +47,9 @@ export default {
       if (this.newEmail) {
         this.updateEmail();
       }
+      this.displayName = '',
+      this.newEmail = ''
+      location.reload(true)
     },
     updateDisplayName() {
       this.user.updateProfile({
