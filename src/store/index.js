@@ -49,7 +49,8 @@ export default new Vuex.Store({
     },
     autoSignIn({ commit }, payload) {
       commit("setUser", {
-        id: payload.uid
+        id: payload.uid,
+        userName: payload.displayName
       });
     },
 

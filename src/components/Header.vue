@@ -66,7 +66,7 @@
         <v-menu offset-y v-if="userIsAuth" :open-on-hover="openOnHover">
           <template v-slot:activator="{ on }">
             <v-btn class="red lighten-2" text dark v-on="on">
-              {{ user.displayName }}
+              {{ userActive.userName }}
               <v-icon right>mdi-arrow-down</v-icon>
             </v-btn>
           </template>
@@ -137,6 +137,9 @@ export default {
         this.$store.getters.user !== null &&
         this.$store.getters.user !== undefined
       );
+    },
+    userActive() {
+      return this.$store.getters.user
     }
   },
   methods: {
