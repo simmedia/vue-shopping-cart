@@ -66,7 +66,7 @@
         <v-menu offset-y v-if="userIsAuth" :open-on-hover="openOnHover">
           <template v-slot:activator="{ on }">
             <v-btn class="red lighten-2" text dark v-on="on">
-              {{ userActive.userName }}
+              {{ user.displayName }}
               <v-icon right>mdi-arrow-down</v-icon>
             </v-btn>
           </template>

@@ -38,24 +38,34 @@ export default {
       }
     }
   },
-  beforeDestroy() {
-      const user = firebase.auth().currentUser;
-      user.updateProfile({
-        displayName: this.name
-      })
-  },
+  // beforeDestroy() {
+  //   const user = firebase.auth().currentUser;
+  //   user.updateProfile({
+  //     displayName: this.name
+  //   });
+  // },
   computed: {
     user() {
       return this.$store.getters.user;
     }
   },
+  beforeDestroy() {
+    const user = firebase.auth().currentUser;
+    user.updateProfile({
+      displayName: this.name
+    });
+  },
 
   methods: {
     register() {
-      this.$store.dispatch("signUserUp", {
-        email: this.email,
-        password: this.password
-      })
+      this.$store
+        .dispatch("signUserUp", {
+          email: this.email,
+          password: this.password
+        })
+        .then(() => {
+          console.log("registered!");
+        });
     }
   }
 };
